@@ -96,7 +96,7 @@ INFO = [
 CONTACT = [
     ("Email", "joumessiisaac@gmail.com"),
     ("LinkedIn", "benny-jason"),
-    ("GitHub", "github.com/ZenithGenius"),
+    ("TryHackMe", "hackwrld"),
 ]
 
 

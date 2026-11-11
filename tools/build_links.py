@@ -1,6 +1,6 @@
 """Render the pixel-art link buttons that sit between the card and the board.
 
-Writes link_<name>_<theme>.svg for portfolio, LinkedIn and email, in both
+Writes link_<name>_<theme>.svg for TryHackMe, LinkedIn and email, in both
 themes.
 
 GitHub shows README SVGs through <img>, so nothing inside one is clickable and
@@ -41,24 +41,25 @@ OUTLINE_MIX = 0.18             # outline: this far from the background toward th
 assert BUTTON_W % PX == 0, "the button must be a whole number of pixels wide"
 
 # --- Sprites ----------------------------------------------------------------
-MONITOR = """
-##########
-#........#
-#.#......#
-#..#.....#
-#.#......#
-#........#
-##########
-....##....
-..######..
+# CTF flag on a pole — reads as TryHackMe without needing their logo.
+FLAG = """
+##........
+##.#######
+##.#######
+##.#######
+##........
+##........
+##........
+##........
+##........
 """
 
-MONITOR_CURSOR = """
+FLAG_WAVE = """
 ..........
+...#######
+...#######
+...#######
 ..........
-..........
-..........
-....###...
 ..........
 ..........
 ..........
@@ -91,10 +92,10 @@ ENVELOPE = """
 """
 
 # Each icon has its own idle move, as each Claude on the board has its own
-# gait: the monitor's cursor blinks, LinkedIn hops, and the envelope rattles
-# like a notification. An open flap was tried first; at button size it read as
-# a little house.
-CURSOR_BLINK = 1.06            # the card's prompt cursor, same cadence
+# gait: the flag flutters, LinkedIn hops, and the envelope rattles like a
+# notification. An open flap was tried first; at button size it read as a
+# little house.
+WAVE_EVERY = 1.2               # flag cloth shifts one pixel, CTF flutter
 HOP_EVERY = 2.0                # LinkedIn jumps one pixel, once per this many seconds
 RATTLE_EVERY = 2.4             # the envelope shakes, once per this many seconds
 
@@ -111,9 +112,11 @@ def twitch(offsets: list[tuple[int, int]], times: list[float], dur: float) -> st
             f'calcMode="discrete" repeatCount="indefinite"/>')
 
 
-def monitor() -> str:
-    return (f'<path d="{path(MONITOR)}"/>'
-            f'<path d="{path(MONITOR_CURSOR)}">{loop("opacity", ["1", "0"], CURSOR_BLINK)}</path>')
+def flag() -> str:
+    # ponytail: cloth is a second layer that slides; ceiling = no wind physics
+    wave = twitch([(0, 0), (1, 0), (0, 0)], [0, 0.5, 1], WAVE_EVERY)
+    return (f'<path d="{path(FLAG)}"/>'
+            f'<g>{wave}<path d="{path(FLAG_WAVE)}"/></g>')
 
 
 def linkedin() -> str:
@@ -129,7 +132,7 @@ def envelope() -> str:
 
 # (file name, label, accent, icon)
 LINKS = (
-    ("github", "GITHUB", "key", monitor),
+    ("tryhackme", "TRYHACKME", "key", flag),
     ("linkedin", "LINKEDIN", "value", linkedin),
     ("email", "EMAIL", "coral", envelope),
 )
