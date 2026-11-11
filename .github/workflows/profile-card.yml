@@ -1,4 +1,4 @@
-# Refreshes the neofetch-style profile card (dark_mode.svg / light_mode.svg).
+# Refreshes the neofetch-style profile card (card_dark.svg / card_light.svg).
 #
 # fetch_stats.py hits the GitHub GraphQL API and caches the expensive
 # lines-of-code walk in cache/loc.json; build_card.py then regenerates both

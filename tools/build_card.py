@@ -1,4 +1,4 @@
-"""Build the neofetch-style profile card SVGs (dark_mode.svg / light_mode.svg).
+"""Build the neofetch-style profile card SVGs (card_dark.svg / card_light.svg).
 
 The card is regenerated from scratch on every run: the ASCII art comes from
 assets/ascii-art.txt and the numbers from cache/stats.json (written by
@@ -372,7 +372,7 @@ def main() -> None:
     print(f"uptime   : {uptime()}")
     print(f"stats    : {'cache/stats.json' if STATS_SRC.exists() else 'not fetched yet (placeholders)'}")
     for name in THEMES:
-        out = ROOT / f"{name}_mode.svg"
+        out = ROOT / f"card_{name}.svg"
         out.write_text(build(name), encoding="utf-8")
         print(f"wrote {out.name} ({out.stat().st_size:,} bytes)")
 
